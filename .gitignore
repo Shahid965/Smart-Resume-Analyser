@@ -1,0 +1,7 @@
+*.zip
+venv/
+__pycache__/
+instance/
+database.db
+uploads/*
+.env

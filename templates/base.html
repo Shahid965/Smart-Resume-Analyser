@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Smart Resume Analyser{% endblock %}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;800&family=Outfit:wght@900&display=swap" rel="stylesheet">
+    <style>
+        :root { --glow: #6366f1; --bg: #020205; }
+        body { background: var(--bg); color: #fff; font-family: 'Plus Jakarta Sans', sans-serif; overflow-x: hidden; cursor: none; }
+        #cursor-dot { position: fixed; width: 6px; height: 6px; background: #fff; border-radius: 50%; pointer-events: none; z-index: 10000; transition: transform 0.05s; }
+        #cursor-glow { position: fixed; width: 50px; height: 50px; background: var(--glow); border-radius: 50%; pointer-events: none; z-index: 9999; filter: blur(25px); opacity: 0.3; transition: transform 0.1s; }
+        canvas { position: fixed; top: 0; left: 0; z-index: -1; pointer-events: none; }
+        .glass { background: rgba(255,255,255,0.02); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.05); }
+        .footer-link:hover { color: var(--glow); transition: 0.3s; }
+    </style>
+</head>
+<body>
+    <div id="cursor-dot"></div>
+    <div id="cursor-glow"></div>
+    <canvas id="starfield"></canvas>
+
+    <!-- NAVBAR -->
+<nav class="glass sticky top-0 z-[100] px-10 py-4 flex justify-between items-center border-b border-white/5">
+    <a href="/" class="text-xl font-black uppercase tracking-tighter" style="font-family: 'Outfit';">Smart Resume Analyser</a>
+    
+    <div class="hidden md:flex space-x-8 text-[10px] font-black uppercase tracking-widest">
+        <a href="/" class="nav-link">Home</a>
+        <a href="/about" class="nav-link">About</a>
+        <a href="/services" class="nav-link">Services</a>
+        <a href="/resources" class="nav-link">Resources</a>
+    </div>
+    
+    <div class="flex items-center space-x-6">
+        {% if current_user.is_authenticated %}
+            <!-- PROFILE CIRCLE DROPDOWN -->
+            <div class="relative group">
+                <div class="flex items-center space-x-3 cursor-pointer">
+                    <div class="text-right hidden lg:block">
+                        <p class="text-[9px] font-black text-white uppercase leading-none">{{ current_user.email.split('@')[0] }}</p>
+                        <p class="text-[7px] text-indigo-400 font-bold tracking-widest uppercase">Verified Pro</p>
+                    </div>
+                    <!-- The Avatar Circle -->
+                    <div class="h-10 w-10 rounded-full border-2 border-indigo-500 p-0.5 shadow-[0_0_15px_rgba(99,102,241,0.4)] hover:scale-110 transition-transform overflow-hidden bg-slate-900">
+                        <img src="{{ current_user.avatar_url }}" alt="Profile" class="h-full w-full object-cover">
+                    </div>
+                </div>
+
+                <!-- Dropdown Menu -->
+                <div class="absolute right-0 top-full pt-4 hidden group-hover:block w-48 animate-fade">
+                    <div class="glass p-5 rounded-2xl border border-white/10 shadow-2xl">
+                        <a href="/profile" class="block text-[10px] font-bold text-slate-300 hover:text-indigo-400 mb-3 transition">VIEW PROFILE</a>
+                        <hr class="border-white/5 mb-3">
+                        <a href="/logout" class="block text-[10px] font-black text-red-500 hover:text-red-400 transition">LOGOUT SYSTEM</a>
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <a href="/login" class="text-[10px] font-bold uppercase tracking-widest hover:text-indigo-400 transition">Login</a>
+            <a href="/signup" class="bg-indigo-600 px-6 py-2 rounded-full text-[10px] font-bold shadow-lg shadow-indigo-500/20 hover:bg-white hover:text-black transition uppercase">Get Started</a>
+        {% endif %}
+    </div>
+</nav>
+    <main class="min-h-screen">{% block content %}{% endblock %}</main>
+
+    <footer class="glass mt-20 pt-20 pb-10 border-t border-white/5">
+        <div class="max-w-7xl mx-auto px-10 grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
+            <div class="col-span-1 md:col-span-1">
+                <h4 class="font-black text-xl mb-6 text-indigo-500">SMART RESUME ANALYSER</h4>
+                <p class="text-[11px] text-slate-500 leading-relaxed uppercase tracking-wider">
+                    The world's most advanced AI-driven recruitment suite. Empowering professionals through neural data analysis and strategic roadmap architecture.
+                </p>
+            </div>
+            
+            <div>
+                <h4 class="font-black text-xs uppercase tracking-widest mb-6">Services</h4>
+                <ul class="text-[10px] text-slate-400 space-y-3 font-bold">
+                    <li><a href="/" class="footer-link">ATS OPTIMIZATION</a></li>
+                    <li><a href="/roadmap" class="footer-link">CAREER ROADMAP</a></li>
+                    <li><a href="/linkedin" class="footer-link">LINKEDIN AUDIT</a></li>
+                    <li><a href="/build_resume" class="footer-link text-slate-600">CV CREATOR (BETA)</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="font-black text-xs uppercase tracking-widest mb-6">The Development Team</h4>
+                <ul class="text-[10px] text-slate-400 space-y-3 font-bold">
+                    <li class="flex justify-between"><span>Mohammad Shahid Khan</span> <span class="text-indigo-500 text-[8px]">MAIN DEVELOPER</span></li>
+                    <li class="flex justify-between"><span>Lakshya Matha</span> <span class="text-indigo-500 text-[8px]">DOCUMENTATION</span></li>
+                    <li class="flex justify-between"><span>Krish Sharma</span> <span class="text-indigo-500 text-[8px]">PROJECT TESTER</span></li>
+                    <li class="flex justify-between"><span>Krati Sharma</span> <span class="text-indigo-500 text-[8px]">MARKETING</span></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="font-black text-xs uppercase tracking-widest mb-6">Contact</h4>
+                <p class="text-[10px] text-slate-400 mb-4 font-bold">SUPPORT@SMARTRESUME.AI</p>
+                <div class="flex space-x-4 opacity-50">
+                    <span class="text-xl">💼</span><span class="text-xl">🐙</span><span class="text-xl">🐦</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="text-center border-t border-white/5 pt-10 px-10">
+            <p class="text-[9px] text-slate-600 font-black tracking-[0.3em] uppercase">
+                © 2024 RESERVED TO MOHAMMAD SHAHID KHAN & HIS TEAM. ALL ARCHITECTURAL RIGHTS RESERVED.
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        const dot = document.getElementById('cursor-dot');
+        const glow = document.getElementById('cursor-glow');
+        document.addEventListener('mousemove', e => {
+            dot.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
+            glow.style.transform = `translate(${e.clientX - 25}px, ${e.clientY - 25}px)`;
+        });
+        const canvas = document.getElementById('starfield');
+        const ctx = canvas.getContext('2d');
+        let stars = [];
+        function init() {
+            canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+            stars = []; for(let i=0; i<150; i++) stars.push({x:Math.random()*canvas.width, y:Math.random()*canvas.height, s:Math.random()*1.5, v:Math.random()*0.3});
+        }
+        function animate() {
+            ctx.clearRect(0,0,canvas.width,canvas.height); ctx.fillStyle="#fff";
+            stars.forEach(s => { ctx.beginPath(); ctx.arc(s.x, s.y, s.s, 0, Math.PI*2); ctx.fill(); s.y -= s.v; if(s.y<0) s.y=canvas.height; });
+            requestAnimationFrame(animate);
+        }
+        init(); animate();
+    </script>
+</body>
+</html>

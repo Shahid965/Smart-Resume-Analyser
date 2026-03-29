@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Access Portal | Smart Resume Analyser{% endblock %}
+{% block content %}
+<div class="flex items-center justify-center min-h-[80vh]">
+    <div class="glass p-16 rounded-[4rem] w-[450px] text-center border border-white/5">
+        <h1 class="text-4xl font-black uppercase mb-2" style="font-family: 'Outfit';">Authorize</h1>
+        <p class="text-[9px] text-slate-500 font-bold tracking-[0.4em] mb-10">IDENTITY VERIFICATION</p>
+        
+        <form action="/login" method="POST" class="space-y-6 text-left">
+            <input type="email" name="email" placeholder="EMAIL ADDRESS" class="w-full bg-white/5 border border-white/10 p-4 rounded-2xl text-[10px] font-bold text-white outline-none focus:border-indigo-500 transition" required>
+            <input type="password" name="password" placeholder="PASSWORD" class="w-full bg-white/5 border border-white/10 p-4 rounded-2xl text-[10px] font-bold text-white outline-none focus:border-indigo-500 transition" required>
+            <button type="submit" class="w-full py-5 bg-white text-black rounded-2xl font-black text-[10px] tracking-widest hover:bg-indigo-600 hover:text-white transition transform hover:scale-[1.02]">AUTHORIZE ENTRY</button>
+        </form>
+        <div class="mt-8 text-[9px] text-slate-600 font-bold">NEED CLEARANCE? <a href="/signup" class="text-indigo-400">SIGNUP HERE</a></div>
+    </div>
+</div>
+{% endblock %}

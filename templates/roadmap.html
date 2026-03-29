@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block title %}Strategic Roadmap | Resume Analyser{% endblock %}
+{% block content %}
+<div class="max-w-6xl mx-auto py-16 px-10">
+    <div id="input-container" class="text-center">
+        <h1 class="text-6xl font-black uppercase mb-4" style="font-family: 'Outfit';">Roadmap <span class="text-indigo-500">Architect.</span></h1>
+        <p class="text-slate-500 text-xs tracking-widest uppercase mb-16">Plotting your 10-year professional vector.</p>
+        
+        <div class="glass p-12 rounded-[4rem] max-w-xl mx-auto border-t-4 border-indigo-500">
+            <label class="w-full h-40 border-2 border-dashed border-white/10 rounded-3xl flex flex-col items-center justify-center cursor-pointer mb-8 hover:bg-indigo-600/5 transition">
+                <span id="fileLabel" class="text-[10px] font-black text-slate-500">UPLOAD RESUME TO GENERATE PATH</span>
+                <input type="file" id="file" class="hidden" onchange="document.getElementById('fileLabel').innerText=this.files[0].name">
+            </label>
+            <button onclick="generateRoadmap()" id="btn" class="w-full py-5 bg-white text-black rounded-2xl font-black text-[10px] tracking-widest hover:bg-indigo-600 hover:text-white transition">GENERATE STRATEGIC PATH</button>
+        </div>
+    </div>
+
+    <!-- RESULT UI -->
+    <div id="roadmap-result" class="hidden mt-20 animate-fade">
+        <div class="glass p-10 rounded-[3rem] mb-10 border-l-8 border-indigo-500">
+            <h2 class="text-3xl font-black mb-4">Current Standing</h2>
+            <p id="standing" class="text-slate-400 text-sm italic"></p>
+        </div>
+
+        <div id="phases" class="grid grid-cols-1 md:grid-cols-3 gap-8"></div>
+
+        <div class="mt-10 grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div class="glass p-10 rounded-[3rem]">
+                <h4 class="text-emerald-400 font-black text-xs uppercase mb-4">Salary Trajectory</h4>
+                <p id="salary" class="text-white font-bold text-sm"></p>
+            </div>
+            <div class="glass p-10 rounded-[3rem]">
+                <h4 class="text-purple-400 font-black text-xs uppercase mb-4">Ultimate Goal</h4>
+                <p id="goal" class="text-white font-bold text-sm"></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+async function generateRoadmap() {
+    const file = document.getElementById('file').files[0];
+    if(!file) return alert("Upload file");
+    document.getElementById('btn').innerText = "CALCULATING VECTOR...";
+    
+    const fd = new FormData();
+    fd.append('resume', file);
+    
+    const res = await fetch('/analyze_roadmap', {method:'POST', body:fd});
+    const d = await res.json();
+    
+    document.getElementById('input-container').style.display = 'none';
+    document.getElementById('roadmap-result').classList.remove('hidden');
+    
+    document.getElementById('standing').innerText = d.ai.current_standing;
+    document.getElementById('salary').innerText = d.ai.salary_trajectory;
+    document.getElementById('goal').innerText = d.ai.ultimate_goal;
+    
+    document.getElementById('phases').innerHTML = d.ai.phases.map(p => `
+        <div class="glass p-8 rounded-[3rem] border-t-4 border-indigo-500">
+            <span class="text-[9px] font-black text-indigo-400 uppercase">${p.period}</span>
+            <h4 class="text-xl font-black my-4 uppercase">${p.title}</h4>
+            <div class="space-y-4">
+                <p class="text-[9px] text-slate-500 font-bold">KEY ACTIONS:</p>
+                ${p.actions.map(a => `<div class="text-[10px] text-slate-300">• ${a}</div>`).join('')}
+                <p class="text-[9px] text-slate-500 font-bold mt-4">SKILLS TO GAIN:</p>
+                ${p.skills_to_acquire.map(s => `<span class="bg-indigo-500/10 text-indigo-400 px-2 py-1 rounded text-[8px] mr-1">${s}</span>`).join('')}
+            </div>
+        </div>
+    `).join('');
+}
+</script>
+{% endblock %}

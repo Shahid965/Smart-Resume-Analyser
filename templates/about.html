@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="max-w-5xl mx-auto py-24 px-10">
+    <h1 class="text-8xl font-black uppercase mb-10 tracking-tighter" style="font-family: 'Outfit';">The <span class="text-indigo-500">Apex</span> of Intelligence.</h1>
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-16 mb-20 leading-relaxed text-slate-400">
+        <p class="text-lg">Smart Resume Analyser (SRA) is a mission-critical recruitment suite designed to deconstruct professional history into actionable vectors. We believe that a resume is not a document, but a professional fingerprint.</p>
+        <p class="text-lg">By leveraging the sub-second inference capabilities of Groq Llama 3.3, we give job seekers the power of a Fortune 500 headhunter and recruiters the precision of a data scientist.</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="glass p-10 rounded-[3rem]">
+            <h4 class="text-white font-black mb-4 uppercase text-xs">Structural Parsing</h4>
+            <p class="text-[11px]">Dual-layer neural extraction handles complex PDF/DOCX layouts without data loss.</p>
+        </div>
+        <div class="glass p-10 rounded-[3rem]">
+            <h4 class="text-white font-black mb-4 uppercase text-xs">Roadmap Design</h4>
+            <p class="text-[11px]">AI plots 10-year career trajectories including salary paths and skill acquisitions.</p>
+        </div>
+        <div class="glass p-10 rounded-[3rem]">
+            <h4 class="text-white font-black mb-4 uppercase text-xs">Social Branding</h4>
+            <p class="text-[11px]">Neural LinkedIn auditing ensures your digital presence matches your technical reality.</p>
+        </div>
+    </div>
+
+    <div class="mt-20 border-t border-white/5 pt-20">
+        <h4 class="text-indigo-500 font-black mb-10 text-center uppercase tracking-widest">How to Operate SRA</h4>
+        <div class="flex flex-col md:flex-row justify-between items-center text-center space-y-10 md:space-y-0">
+            <div class="w-64">
+                <div class="text-4xl mb-4">📂</div>
+                <h5 class="font-black text-[10px] mb-2">INPUT DATA</h5>
+                <p class="text-[9px] text-slate-500">Upload your CV or LinkedIn link to the secure portal.</p>
+            </div>
+            <div class="w-64">
+                <div class="text-4xl mb-4">⚙️</div>
+                <h5 class="font-black text-[10px] mb-2">NEURAL SCAN</h5>
+                <p class="text-[9px] text-slate-500">Llama 3.3 deconstructs your skills and experience levels.</p>
+            </div>
+            <div class="w-64">
+                <div class="text-4xl mb-4">💎</div>
+                <h5 class="font-black text-[10px] mb-2">APEX OUTPUT</h5>
+                <p class="text-[9px] text-slate-500">Receive reports, roadmaps, and optimization matrices.</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

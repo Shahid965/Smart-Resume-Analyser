@@ -1,0 +1,10 @@
+flask
+flask-sqlalchemy
+flask-login
+pdfplumber
+PyPDF2
+python-docx
+scikit-learn
+groq
+python-dotenv
+werkzeug
